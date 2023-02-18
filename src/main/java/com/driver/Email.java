@@ -20,44 +20,27 @@ public class Email {
 
     public void changePassword(String oldPassword, String newPassword){
         //Change password only if the oldPassword is equal to current password and the new password meets all of the following:
+        if(!oldPassword.equals(this.password)) return;
         // 1. It contains at least 8 characters
+        if(newPassword.length()<8) return;
         // 2. It contains at least one uppercase letter
         // 3. It contains at least one lowercase letter
         // 4. It contains at least one digit
         // 5. It contains at least one special character. Any character apart from alphabets and digits is a special character
-        if(this.password.equals(oldPassword)){
-            if(newPassword.length()>=8 && checkUpperCase(newPassword) && checkLowerCase(newPassword) && checkNumber(newPassword) && checkSpecialChar(newPassword))
-                this.password = newPassword;
-        }
-    }
-    public boolean checkUpperCase(String newPassword){
-        for(int i=0;i<newPassword.length();i++){
-            if(newPassword.charAt(i)>='A' && newPassword.charAt(i)<='Z') return true;
-        }
-        return false;
-    }
-    public boolean checkLowerCase(String newPassword){
-        for(int i=0;i<newPassword.length();i++)
-            if(newPassword.charAt(i)>='a' && newPassword.charAt(i)<='z') return true;
-        return false;
-    }
-    public boolean checkNumber(String newPassword){
-        for(int i=0;i<newPassword.length();i++)
-            if(newPassword.charAt(i)>='0' && newPassword.charAt(i)<='9') return true;
-        return false;
-    }
-    public boolean checkSpecialChar(String newPassword){
-        boolean flag=false;
-        for (int i = 0; i < newPassword.length(); i++) {
+        boolean isDigit = false;
+        boolean isUpper = false;
+        boolean isLower = false;
+        boolean isSpecial = false;
 
-            // Checking the character for not being a
-            // letter,digit or space
-            if (!Character.isDigit(newPassword.charAt(i)) && !Character.isLetter(newPassword.charAt(i)))
-            {
-                flag=true;
-                break;
-            }
+        for(char ch: newPassword.toCharArray()){
+            if(Character.isDigit(ch)) isDigit = true;
+            else if(Character.isUpperCase(ch)) isUpper = true;
+            else if(Character.isLowerCase(ch)) isLower = true;
+            else   isSpecial = true;
         }
-        return flag;
+        if(isDigit && isLower && isUpper && isSpecial){
+            this.password = newPassword;
+        }
+
     }
 }
